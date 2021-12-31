@@ -8,9 +8,13 @@ if os.path.exists("output_dir.txt"):
 
 def compile_moon(filename):
 	lua_name = filename.removesuffix(".moon") + ".lua"
-	subprocess.run(["moonscript\\moonc.exe", "-t", "moonout",  f"src\\{filename}"])
-	os.replace(f".\\moonout\\src\\{lua_name}", f".\\moonout\\{lua_name}")
-	os.removedirs(".\\moonout\\src\\")
+	try:
+		subprocess.run(["moonscript\\moonc.exe", "-t", "moonout",  f"src\\{filename}"])
+		os.replace(f".\\moonout\\src\\{lua_name}", f".\\moonout\\{lua_name}")
+		os.removedirs(".\\moonout\\src\\")
+	except:
+		print(f"failed to parse {filename}")
+
 
 def bundle_files():
 	os.system('coffee tape -m main -o "final_build.lua" -d .\\moonout .')
