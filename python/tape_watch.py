@@ -32,12 +32,15 @@ if os.path.exists(".\\moonout\\") == False:
 old_date = {}
 
 while True:
-	for f in os.listdir("./src/"):
-		if f.endswith(".moon"):
-			current_date = os.stat(f"./src/{f}").st_mtime
-			if old_date.get(f) != current_date:
-				old_date[f] = current_date
-				compile_moon(f)
-				bundle_files()
-	
-	time.sleep(0.5)
+	try:
+		for f in os.listdir("./src/"):
+			if f.endswith(".moon"):
+				current_date = os.stat(f"./src/{f}").st_mtime
+				if old_date.get(f) != current_date:
+					old_date[f] = current_date
+					compile_moon(f)
+					bundle_files()
+		
+		time.sleep(0.5)
+	except KeyboardInterrupt: # gracefully exit on CTRL + C and other keyboard shortcuts
+		break
